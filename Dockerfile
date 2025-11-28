@@ -8,7 +8,7 @@ COPY package.json package-lock.json ./
 RUN npm ci
 
 FROM deps AS builder
-ENV NODE_ENV=development
+ENV NODE_ENV=production
 COPY . .
 RUN npm run build
 

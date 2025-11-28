@@ -1,11 +1,20 @@
-version: "3.9"
-
 services:
   web:
     build: .
     image: home-secret:web
-    ports:
-      - "3000:3000"
+    expose:
+      - "3000"              # порт виден только внутри сети
     environment:
       NODE_ENV: production
-    command: npm run start
+    command: npm run start   # можно убрать, т.к. CMD уже в Dockerfile
+
+  nginx:
+    image: nginx:alpine
+    container_name: home-secret-nginx
+    depends_on:
+      - web
+    ports:
+      - "80:80"              # снаружи доступен только 80
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    restart: unless-stopped
