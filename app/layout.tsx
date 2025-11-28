@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Manrope, Playfair_Display } from "next/font/google";
+import { CartProvider } from "@/lib/cart-context";
+import { FavoritesProvider } from "@/lib/favorites-context";
 import "./globals.css";
 
 const sans = Manrope({
@@ -30,7 +32,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ru" className={`${sans.variable} ${display.variable}`}>
-      <body className="bg-[var(--bg)] text-[var(--ink)]">{children}</body>
+      <body className="bg-[var(--bg)] text-[var(--ink)]">
+        <FavoritesProvider>
+          <CartProvider>{children}</CartProvider>
+        </FavoritesProvider>
+      </body>
     </html>
   );
 }
